@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — GOOD LANCHES</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ══ LOGIN ══════════════════════════════════════════════════ -->
+<div id="loginBox" class="login-box">
+    <h2>GOOD LANCHES</h2>
+    <p style="color:#888; font-size:0.85rem; margin-bottom:10px;">Painel Admin</p>
+
+    <input type="text" id="usuario" placeholder="Usuário" autocomplete="username">
+
+    <div class="senha-box">
+        <input type="password" id="senha" placeholder="Senha" autocomplete="current-password"
+               onkeydown="if(event.key==='Enter') login()">
+        <i class="fa fa-eye" id="iconeSenha" onclick="toggleSenha()"></i>
+    </div>
+
+    <button onclick="login()">Entrar</button>
+</div>
+
+<!-- ══ PAINEL ═════════════════════════════════════════════════ -->
+<div id="painel" class="painel" style="display:none;">
+
+    <div class="topo">
+        <h2>Cardápio</h2>
+        <button class="btn-logout" onclick="logout()">
+            <i class="fa fa-right-from-bracket"></i> Sair
+        </button>
+    </div>
+
+    <!-- ADICIONAR ITEM -->
+    <div class="box">
+        <h3>Adicionar novo item</h3>
+
+        <input type="text" id="nome" placeholder="Nome do produto">
+
+        <select id="categoria">
+            <option value="" disabled selected>Selecione uma categoria</option>
+            <option value="tradicionais">Pizzas Tradicionais</option>
+            <option value="doces">Pizzas Doces</option>
+            <option value="bebidas">Bebidas</option>
+        </select>
+
+        <input type="number" id="preco" placeholder="Preço (ex: 25.50)" step="0.01" min="0">
+
+        <input type="text" id="imagem" placeholder="Caminho da imagem (ex: img/pizza.jpg)"
+               oninput="previewImagem()">
+
+        <img id="preview" class="preview" alt="Preview">
+
+        <textarea id="descricao" placeholder="Descrição (opcional)"></textarea>
+
+        <button onclick="adicionar()">
+            <i class="fa fa-plus"></i> Adicionar item
+        </button>
+    </div>
+
+    <!-- LISTA -->
+    <div class="box">
+        <h3>Itens do cardápio</h3>
+        <div class="lista" id="lista"></div>
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOOD LANCHES - O Brabo da Região</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+    <div class="container-fluid nav-container">
+
+        <div class="logo">
+            <h1>GOOD <span>LANCHES</span></h1>
+        </div>
+
+        <div class="header-actions">
+            <div id="cart-btn" onclick="toggleCart()" class="cart-top">
+                <div class="cart-icon-wrapper">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-badge">0</span>
+                </div>
+                <span id="cart-total-header">R$ 0,00</span>
+            </div>
+
+            <div class="user-top" onclick="abrirUsuario()">
+                <i class="fa-solid fa-user"></i>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- CARRINHO (mantive igual) -->
+<div id="cart-sidebar" class="cart-sidebar">
+
+    <!-- HEADER -->
+    <div class="cart-header">
+        <span>Seu Pedido</span>
+        <button onclick="toggleCart()">✕</button>
+    </div>
+
+    <!-- LISTA DE ITENS -->
+    <div id="cart-items"></div>
+
+    <!-- EXTRA (entrega, pagamento, etc) -->
+    <div id="cart-extra" class="cart-footer">
+
+    <!-- ENTREGA -->
+    <div class="cart-section">
+        <p><strong>Tipo de pedido:</strong></p>
+
+        <div class="opcoes-entrega">
+            <label class="opcao-entrega">
+                <input type="radio" name="entrega" value="Retirada" checked>
+                <i class="fa-solid fa-store"></i>
+                <span>Retirar no local</span>
+            </label>
+
+            <label class="opcao-entrega">
+                <input type="radio" name="entrega" value="Delivery">
+                <i class="fa-solid fa-motorcycle"></i>
+                <span>Entrega</span>
+            </label>
+        </div>
+
+        <div id="area-entrega" class="hidden">
+            <select id="bairro">
+                <option value="">Selecione o bairro</option>
+                <option>Boa Viagem / Centro</option>
+                <option>Jaboatão</option>
+                <option>Prazeres</option>
+                <option>Piedade</option>
+                <option>Candeias</option>
+            </select>
+            <p id="taxa-entrega"></p>
+        </div>
+    </div>
+
+    <!-- OBSERVAÇÃO -->
+    <div class="cart-section">
+        <p><strong>Observações:</strong></p>
+        <textarea id="observacaoPedido" placeholder="Ex: sem cebola, molho à parte..."></textarea>
+    </div>
+
+    <!-- PAGAMENTO -->
+    <div class="cart-section">
+        <p><strong>Pagamento:</strong></p>
+
+        <div class="pagamento-box">
+            <label class="opcao-pagamento">
+                <input type="radio" name="pagamento" value="Pix" checked>
+                <i class="fa-solid fa-qrcode"></i> Pix
+            </label>
+
+            <label class="opcao-pagamento">
+                <input type="radio" name="pagamento" value="Dinheiro">
+                <i class="fa-solid fa-money-bill"></i> Dinheiro
+            </label>
+
+            <label>
+  <label class="opcao-pagamento">
+    <input type="radio" name="pagamento" value="Cartão de Crédito">
+    
+    <div class="cartao-info">
+        <i class="fa-solid fa-credit-card"></i>
+        <span>Crédito</span>
+
+        <div class="bandeiras">
+            <i class="fa-brands fa-cc-visa"></i>
+            <i class="fa-brands fa-cc-mastercard"></i>
+            <i class="fa-brands fa-cc-amex"></i>
+        </div>
+    </div>
+</label>
+
+<label class="opcao-pagamento">
+    <input type="radio" name="pagamento" value="Cartão de Débito">
+    
+    <div class="cartao-info">
+        <i class="fa-solid fa-credit-card"></i>
+        <span>Débito</span>
+
+        <div class="bandeiras">
+            <i class="fa-brands fa-cc-visa"></i>
+            <i class="fa-brands fa-cc-mastercard"></i>
+        </div>
+    </div>
+</label>
+        </div>
+
+        <div id="troco-area" class="hidden">
+            <input id="troco" placeholder="Troco para quanto?">
+        </div>
+    </div>
+
+    <!-- CUPOM -->
+    <div class="cart-section">
+        <p><strong>Cupom de desconto:</strong></p>
+
+        <div class="cupom-box" style="display:flex; gap:5px;">
+            <input id="cupom" placeholder="Digite seu cupom">
+            <button onclick="aplicarCupom()">Aplicar</button>
+        </div>
+
+        <p id="cupom-msg"></p>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="cart-total">
+        <span>Total</span>
+        <span id="cart-total-value">R$ 0,00</span>
+    </div>
+
+    <!-- BOTÃO -->
+    <button class="btn-finalizar" onclick="enviarPedido()">
+        Finalizar Pedido
+    </button>
+
+</div>
+
+</div>
+</div>
+
+<section class="hero">
+    <div class="container-fluid">
+        <h2>Bateu a fome?</h2>
+        <p>Lanche feito na hora, bem servido e com ingrediente de qualidade.</p>
+    </div>
+</section>
+
+<div class="menu-wrapper">
+    <div class="container-fluid">
+        <nav class="menu-categorias">
+            <a href="#tradicionais" class="ativo">Pizzas tradicionais</a>
+            <a href="#doces">Pizzas doces</a>
+            <a href="#bebidas">Bebidas</a>
+        </nav>
+    </div>
+</div>
+
+<!-- =========================
+     CARDÁPIO DINÂMICO
+========================= -->
+
+<main class="container-fluid" id="tradicionais">
+    <h3 class="menu-title">Pizzas Tradicionais</h3>
+    <div class="cardapio-grid" id="lista-tradicionais"></div>
+</main>
+
+<main class="container-fluid" id="doces">
+    <h3 class="menu-title">Pizzas Doces</h3>
+    <div class="cardapio-grid" id="lista-doces"></div>
+</main>
+
+<main class="container-fluid" id="bebidas">
+    <h3 class="menu-title">Bebidas</h3>
+    <div class="cardapio-grid" id="lista-bebidas"></div>
+</main>
+
+<footer>
+    <div class="container">
+        <p><strong>GOOD LANCHES</strong></p>
+        <p>Rua Antônio Vieira da Costa, 214 - Comportas</p>
+        <p>Aceitamos cartões e Pix</p>
+    </div>
+</footer>
+
+<!-- BARRA CARRINHO -->
+<div id="barraCarrinho" class="barra-carrinho">
+    <div class="conteudo-barra-carrinho container-fluid" onclick="toggleCart()">
+        <div class="lado-esquerdo-barra">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="textoQuantidadeItens">0 itens</span>
+        </div>
+
+        <div class="botao-ver-carrinho">Ver carrinho</div>
+
+        <div class="lado-direito-barra">
+            <span id="textoValorTotal">R$ 0,00</span>
+        </div>
+</div>
+</div>
+
+<a href="https://wa.me/5581984065536" class="btn-float btn-whatsapp" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<a href="https://instagram.com/goodlanches" class="btn-float btn-instagram" target="_blank">
+    <i class="fa-brands fa-instagram"></i>
+</a>
+<div id="login-modal" class="login-modal">
+    <div class="login-box">
+
+        <h3>Entrar</h3>
+
+        <!-- NOME -->
+        <div class="campo">
+            <label>Nome</label>
+            <input 
+                id="nomeCliente" 
+                placeholder="Ex: Maria"
+            >
+        </div>
+
+        <!-- SOBRENOME -->
+        <div class="campo">
+            <label>Sobrenome</label>
+            <input 
+                id="sobrenomeCliente" 
+                placeholder="Ex: Silva"
+            >
+        </div>
+
+        <!-- TELEFONE -->
+        <div class="campo">
+            <label>Telefone</label>
+            <input 
+                id="telefoneCliente" 
+                placeholder="Ex: (81) 9 9999-9999"
+            >
+        </div>
+
+        <button onclick="enviarCodigo()">
+            Receber código
+        </button>
+
+        <!-- CÓDIGO -->
+        <div id="area-codigo" style="display:none; margin-top:10px;">
+            
+            <div class="campo">
+                <label>Código de verificação</label>
+                <input 
+                    id="codigoCliente" 
+                    placeholder="Ex: 1234"
+                >
+            </div>
+
+            <button onclick="confirmarCodigo()">
+                Confirmar código
+            </button>
+
+            <p id="codigo-msg" style="display:none; color:green; margin-top:8px;"></p>
+        </div>
+
+    </div>
+</div>
+
+<div id="user-sidebar" class="user-sidebar">
+
+    <div class="user-header">
+        <span>Minha Conta</span>
+        <button onclick="fecharUsuario()">✕</button>
+    </div>
+
+    <div class="user-info">
+        <p><strong>Nome:</strong> <span id="user-nome"></span></p>
+        <p><strong>Telefone:</strong> <span id="user-telefone"></span></p>
+    </div>
+
+    <div class="user-pedidos">
+        <div onclick="togglePedidos()" style="cursor:pointer;">
+            <strong>Meus pedidos</strong>
+            <i id="icone-pedidos" class="fa-solid fa-chevron-down"></i>
+        </div>
+
+        <div id="lista-pedidos" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid #eee;"></div>
+    </div>
+
+   <button class="btn-logout" onclick="logout()">
+    <i class="fa-solid fa-right-from-bracket"></i> Sair da conta
+</button>
+
+</div>
+<script src="carrinho.js"></script>
+</body>
+</html>
