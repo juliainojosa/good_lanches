@@ -12,7 +12,7 @@ async function login() {
         return;
     }
 
-    const res = await fetch("http://localhost:3000/admin/login", {
+    const res = await fetch(API + "/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario, senha })
@@ -62,7 +62,7 @@ window.onload = async () => {
 
     auth = JSON.parse(saved);
 
-    const res = await fetch("http://localhost:3000/admin/login", {
+    const res = await fetch(API + "/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(auth)
@@ -156,7 +156,7 @@ async function adicionar() {
         return;
     }
 
-    const res = await fetch("http://localhost:3000/admin/cardapio", {
+    const res = await fetch(API + "/admin/cardapio", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -199,7 +199,7 @@ async function salvar(event, id) {
     btn.innerHTML = "Salvando...";
     btn.disabled = true;
 
-    const res = await fetch(`http://localhost:3000/admin/cardapio/${id}`, {
+    const res = await fetch(API + `/admin/cardapio/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -235,7 +235,7 @@ async function salvar(event, id) {
    ARQUIVAR / ATIVAR
 ========================= */
 async function arquivar(id) {
-    const res = await fetch(`http://localhost:3000/admin/cardapio/${id}/arquivar`, {
+    const res = await fetch(API + `/admin/cardapio/${id}/arquivar`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(auth)
@@ -254,7 +254,7 @@ function confirmarExclusao(id) {
 }
 
 async function excluir(id) {
-    const res = await fetch(`http://localhost:3000/admin/cardapio/${id}`, {
+    const res = await fetch(API + `/admin/cardapio/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(auth)

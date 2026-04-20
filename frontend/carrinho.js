@@ -1,3 +1,4 @@
+const API = "https://good-lanches-backend.onrender.com";
 let carrinho = [];
 let pedidoPendente = null;
 let desconto = 0;
@@ -25,7 +26,7 @@ window.addEventListener("load", () => {
 ========================= */
 async function carregarCardapio() {
     try {
-        const resposta = await fetch("http://localhost:3000/cardapio");
+        const resposta = await fetch(API + "/cardapio");
         const produtos = await resposta.json();
 
         const trad = document.getElementById("lista-tradicionais");
@@ -273,7 +274,7 @@ async function enviarPedidoWhatsApp() {
 document.addEventListener("visibilitychange", async () => {
     if (document.visibilityState === "visible" && pedidoPendente) {
         try {
-            await fetch("http://localhost:3000/salvar-pedido", {
+            await fetch(API + "/salvar-pedido", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(pedidoPendente)
@@ -328,7 +329,7 @@ async function enviarCodigo() {
     const telefone = document.getElementById("telefoneCliente").value.trim();
     if (!nome || !sobrenome || !telefone) { alert("Preencha todos os campos!"); return; }
     try {
-        const resposta = await fetch("http://localhost:3000/enviar-codigo", {
+        const resposta = await fetch(API + "/enviar-codigo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nome, sobrenome, telefone })
@@ -354,7 +355,7 @@ async function confirmarCodigo() {
         const codigo = document.getElementById("codigoCliente").value.trim();
         if (!codigo) { alert("Digite o código!"); return; }
         try {
-            const resposta = await fetch("http://localhost:3000/verificar-codigo", {
+            const resposta = await fetch(API + "/verificar-codigo", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ telefone, codigo })
@@ -484,7 +485,7 @@ async function confirmarCodigo() {
 
     async function carregarPedidos(telefone) {
         try {
-            const resposta = await fetch(`http://localhost:3000/pedidos/${telefone}`);
+            const resposta = await fetch(`${API}/pedidos/${telefone}`);
             const data = await resposta.json();
             const lista = document.getElementById("lista-pedidos");
 
